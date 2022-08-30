@@ -1,10 +1,8 @@
 package com.elastic.search.trab.controller;
 
 import com.elastic.search.trab.result.Result;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import com.elastic.search.trab.model.ELManager;
 
 import java.util.List;
@@ -14,6 +12,7 @@ import java.util.List;
 @RequestMapping("/")
 public class SearchController {
     @GetMapping(value = "/{must}/{not}/{should}/{page}")
+    @ResponseStatus(HttpStatus.OK)
     public List<Result> getResult(@PathVariable String must, @PathVariable String not, @PathVariable String should, @PathVariable Integer page){
         String esHost = "localhost";
         int esPort = 9200;
