@@ -31,12 +31,20 @@
 
 .centro2 {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 1rem;
 }
 
 .showResponse {
     text-align: left;
+    padding: 1rem;
+    max-width: 50%;
+    /* background-color: #0f9d58; */
+    background-color: #fefefe;
+    box-shadow: 0px 0px 3px #4285f4;
+    margin-top: 1rem;
 }
 
 .urlLink {
@@ -56,4 +64,19 @@
 .contentSpan {
     font-size: 14px;
     color: black;
+}
+
+.bang{
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.bang p {
+    color:#0f9d58 ;
+}
+
+.bang p:hover{
+    cursor: pointer;
+    color:#0d7e47 ;
 }

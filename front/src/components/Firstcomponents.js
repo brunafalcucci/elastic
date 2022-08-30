@@ -5,14 +5,27 @@ import axios from 'axios';
 const Firstcomponents = () => {
     const [search, setSearch]=useState('');
     const [response, setResponse]=useState(null);
+    const [pageNumber,setPageNumber] = useState(1);
 
     function searchOnDoouglas(busca) {
         axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
         axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-        axios.get(`http://localhost:8080/${busca}/teste/${busca}/1`).then(
+        axios.get(`http://localhost:8080/${busca}/ / /${pageNumber}`).then(
             (resposta) => {
                 setResponse(resposta.data);
             })
+    }
+
+    let definePage = (typeOfPage) =>{
+        if (typeOfPage === "next"){
+            setPageNumber(pageNumber + 1)
+        }
+        else{
+            if(pageNumber > 1 ){
+                setPageNumber(pageNumber - 1);
+            }
+        }
+        searchOnDoouglas(search)
     }
 
     if(response == null) {
@@ -30,14 +43,12 @@ const Firstcomponents = () => {
     } else {
         return (
             <div className='centro2'>
-                <div className='showResponse'>
-                    <a className='urlLink' target="_blank" rel='noreferrer' href={response.url}>{response.url}</a>
-                </div>
-                <div className='showResponse'>
-                    <a className='titleLink' target="_blank" rel='noreferrer' href={response.url}>{response.title}</a>
-                </div>
-                <div className='showResponse'>
-                    <span className='contentSpan'>{response.content}</span>
+                {response.map(e => {
+                    return <div key={e.url} className='showResponse'><a href={e.url}>{e.title}</a><p>{e.content}</p></div>
+                })}
+                <div className='bang'>
+                <p onClick={() => definePage("previuous")}>Previuos page</p>
+                <p onClick={() => definePage("next")}>Next page</p>
                 </div>
             </div>
         )
