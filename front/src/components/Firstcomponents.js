@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './Firstcomponents.css';
 import axios from 'axios';
 
+const [response, setResponse]=useState(null);
+
 function searchOnDoouglas(busca) {
     axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
     axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
@@ -13,7 +15,6 @@ function searchOnDoouglas(busca) {
 
 const Firstcomponents = () => {
     const [search, setSearch]=useState('');
-    const [response, setResponse]=useState(null);
 
 
     if(response == null) {
