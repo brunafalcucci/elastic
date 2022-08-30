@@ -22,8 +22,38 @@
 #divBusca{
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .btnBusca {
     margin-top: 15px;
+}
+
+.centro2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.showResponse {
+    text-align: left;
+}
+
+.urlLink {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.titleLink {
+    font-size: 20px;
+    color: black;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.contentSpan {
+    font-size: 14px;
+    color: black;
 }

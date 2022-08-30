@@ -1,18 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Firstcomponents.css';
+import axios from 'axios';
 
 const Firstcomponents = () => {
-    return (
-        <div className='centro1'>
-            <img className='doouglas' src='/Douglas.png' alt='douglas'/>
-            <div id="divBusca">
-                <input type="text" id="txtBusca" placeholder="Pesquise no Doouglas ou escreva um URL " />
-                <div className='btnBusca'>
-                    <img src='/iconssearch.png' id="btnBusca" alt="Buscar" />
+    const [search, setSearch]=useState('');
+    const [response, setResponse]=useState(null);
+
+    function searchOnDoouglas(busca) {
+        axios.get(`http://localhost:8080/${busca}/:not/:should`).then(
+            (response) => {
+                setResponse(response.data);
+            })
+    }
+
+    if(response == null) {
+        return (
+            <div className='centro1'>
+                <img className='doouglas' src='/Douglas.png' alt='douglas'/>
+                <div id="divBusca">
+                    <input type="text" id="txtBusca" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Pesquise no Doouglas ou escreva um URL " />
+                    <div className='btnBusca'>
+                        <img src='/iconssearch.png' id="btnBusca" alt="Buscar" onClick={searchOnDoouglas(search)}/>
+                    </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    } else {
+        return (
+            <div className='centro2'>
+                <div className='showResponse'>
+                    <a className='urlLink' target="_blank" rel='noreferrer' href={response.url}>{response.url}</a>
+                </div>
+                <div className='showResponse'>
+                    <a className='titleLink' target="_blank" rel='noreferrer' href={response.url}>{response.title}</a>
+                </div>
+                <div className='showResponse'>
+                    <span className='contentSpan'>{response.content}</span>
+                </div>
+            </div>
+        )
+    }
 }
 
 export default Firstcomponents
