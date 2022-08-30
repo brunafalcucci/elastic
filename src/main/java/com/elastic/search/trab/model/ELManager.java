@@ -5,29 +5,19 @@
  */
 package com.elastic.search.trab.model;
 
+import com.elastic.search.trab.result.Result;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
-import org.opensearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.opensearch.action.delete.DeleteRequest;
-import org.opensearch.action.delete.DeleteResponse;
-import org.opensearch.action.get.GetRequest;
-import org.opensearch.action.get.GetResponse;
-import org.opensearch.action.index.IndexRequest;
-import org.opensearch.action.index.IndexResponse;
 import org.opensearch.action.search.SearchRequest;
 import org.opensearch.action.search.SearchResponse;
-import org.opensearch.action.support.master.AcknowledgedResponse;
 import org.opensearch.client.RequestOptions;
 import org.opensearch.client.RestClient;
 import org.opensearch.client.RestClientBuilder;
 import org.opensearch.client.RestHighLevelClient;
-import org.opensearch.client.indices.CreateIndexRequest;
-import org.opensearch.client.indices.CreateIndexResponse;
-import org.opensearch.common.settings.Settings;
 import org.opensearch.common.unit.TimeValue;
 import org.opensearch.index.query.BoolQueryBuilder;
 import org.opensearch.index.query.MatchQueryBuilder;
@@ -39,7 +29,6 @@ import org.opensearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.opensearch.search.sort.FieldSortBuilder;
 import org.opensearch.search.sort.ScoreSortBuilder;
 import org.opensearch.search.sort.SortOrder;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 
@@ -110,7 +99,7 @@ public class ELManager implements AutoCloseable {
 		client.close();
 	}
 
-	public JSONArray search(String must, String must_not, String should, int page, int page_size) {
+	public List<Result> search(String must, String must_not, String should, int page, int page_size) {
 
 		//construindo uma bool query
 		BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
@@ -179,11 +168,7 @@ public class ELManager implements AutoCloseable {
 
 		//recuperando os resultados e imprimindo na tela
 		searchRequest.source(searchSourceBuilder);
-		StringBuilder result = new StringBuilder();
-
-		JSONObject json = new JSONObject();
-
-		JSONArray list = new JSONArray();
+		List<Result> results = new ArrayList<>(); //lista com os resultados
 
 		try {
 			SearchResponse sr = client.search(searchRequest, RequestOptions.DEFAULT);
@@ -195,18 +180,16 @@ public class ELManager implements AutoCloseable {
 				String title = (String) source.get("title");
 				String abst = hit.getHighlightFields().get("content").getFragments()[0].toString();
 
-				json.put("url", url);
-				json.put("title", title);
-				json.put("content", abst);
-				list.put(json);
+				Result result = new Result();
+				result.setUrl(url);
+				result.setTitle(title);
+				result.setContent(abst);
+				results.add(result);
 
 			}
-
 		} catch (IOException ex) {
 			Logger.getLogger(ELManager.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (JSONException e) {
-			throw new RuntimeException(e);
 		}
-		return list;
+		return results;
 	}
 }
