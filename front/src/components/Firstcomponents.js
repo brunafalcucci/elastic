@@ -22,7 +22,7 @@ const Firstcomponents = () => {
                 <div id="divBusca">
                     <input type="text" id="txtBusca" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Pesquise no Doouglas ou escreva um URL " />
                     <div className='btnBusca'>
-                        <img src='/iconssearch.png' id="btnBusca" alt="Buscar" onClick={searchOnDoouglas(search)}/>
+                        <img src='/iconssearch.png' id="btnBusca" alt="Buscar" onClick={() => searchOnDoouglas(search)}/>
                     </div>
                 </div>
             </div>
