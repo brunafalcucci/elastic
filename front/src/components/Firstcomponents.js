@@ -7,9 +7,10 @@ const Firstcomponents = () => {
     const [response, setResponse]=useState(null);
 
     function searchOnDoouglas(busca) {
-        axios.get(`http://localhost:8080/${busca}/:not/:should`).then(
-            (response) => {
-                setResponse(response.data);
+        axios.get(`http://localhost:8080/${busca}/teste/${busca}/1`).then(
+            (resposta) => {
+                setResponse(resposta.data);
+                console.log(response);
             })
     }
 
