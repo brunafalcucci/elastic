@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import './Firstcomponents.css';
 import axios from 'axios';
 
+function searchOnDoouglas(busca) {
+    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+    axios.get(`http://localhost:8080/${busca}/teste/${busca}/1`).then(
+        (resposta) => {
+            setResponse(resposta.data);
+        })
+}
+
 const Firstcomponents = () => {
     const [search, setSearch]=useState('');
     const [response, setResponse]=useState(null);
 
-    function searchOnDoouglas(busca) {
-        axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
-        axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-        axios.get(`http://localhost:8080/${busca}/teste/${busca}/1`).then(
-            (resposta) => {
-                setResponse(resposta.data);
-                console.log(response);
-            })
-    }
 
     if(response == null) {
         return (
